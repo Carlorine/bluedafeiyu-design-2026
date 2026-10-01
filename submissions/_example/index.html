@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>示例投稿 · 蓝色大肥鱼</title>
+  <link rel="stylesheet" href="../../starter/tokens.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: var(--space-6) var(--space-4); font-family: var(--font-sans); color: var(--text-primary); background: var(--paper); }
+    h1 { margin: 0 0 var(--space-2); }
+    p { margin: 0 0 var(--space-5); color: var(--text-secondary); }
+    nav { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-5); }
+    nav button { padding: 4px 12px; font: inherit; color: var(--text-primary); background: var(--paper-card); border: 2px solid var(--ink); border-radius: 999px; cursor: pointer; }
+    nav button[aria-pressed="true"] { color: #fff; background: var(--c, var(--ink)); }
+    ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+    li a { display: block; color: inherit; text-decoration: none; background: var(--paper-card); border: 2px solid var(--ink); border-radius: var(--radius-md); overflow: hidden; }
+    li img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; background: var(--cs, var(--paper)); }
+    li span { display: block; padding: 6px 8px; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  </style>
+</head>
+<body>
+  <h1>示例：最简作品墙</h1>
+  <p>数据来自 <code>../../starter/data.js</code>，图片直接用正式站地址。</p>
+  <nav id="chars" aria-label="按角色筛选"></nav>
+  <ul id="works"></ul>
+  <script src="../../starter/data.js"></script>
+  <script>
+    const { works } = window.SITE_DATA;
+    // 只列有作品的角色
+    const characters = window.SITE_DATA.characters.filter(c => works.some(w => w.characterId === c.id));
+    const nav = document.getElementById('chars'), list = document.getElementById('works');
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    function show(id) {
+      [...nav.children].forEach(b => b.setAttribute('aria-pressed', String(b.dataset.id === id)));
+      const c = characters.find(x => x.id === id);
+      list.style.setProperty('--cs', c ? c.colorSoft : '');
+      list.innerHTML = works.filter(w => !id || w.characterId === id).slice(0, 60).map(w =>
+        '<li><a href="' + esc(w.page) + '" target="_blank" rel="noopener"><img loading="lazy" src="' + esc(w.thumb) + '" alt="' + esc(w.description || w.name) + '"><span>' + esc(w.name) + '</span></a></li>').join('');
+    }
+    nav.innerHTML = '<button type="button" data-id="">全部</button>' + characters.map(c =>
+      '<button type="button" data-id="' + esc(c.id) + '" style="--c:' + c.colorDeep + '">' + esc(c.name) + '</button>').join('');
+    nav.addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(b.dataset.id); });
+    show('');
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+# PR 自动检查。用 pull_request（只读权限、没有密钥），检查脚本取自基准分支，PR 里改不了它
+name: 检查投稿
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出基准分支（检查脚本）
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+      - name: 检出投稿
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: pr
+          fetch-depth: 0
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24
+      - name: 检查
+        run: node base/scripts/check-submission.mjs --root pr --base ${{ github.event.pull_request.base.sha }} --author "${{ github.event.pull_request.user.login }}"
