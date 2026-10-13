@@ -1,0 +1,1919 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>蓝色大肥鱼 · AI娘二创祭</title>
+<meta name="description" content="DeepSeek娘、Claude娘、通义千问娘……把 AI 模型拟人化之后，大家都在画什么？这里是蓝色大肥鱼的 AI 娘二创作品集。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Baloo+2:wght@500;600;800&display=swap">
+<!-- 起步包：只为拿 --art-<角色id>-a / -b 这组角色代表色，本页其余样式一律自带 -->
+<link rel="stylesheet" href="../../starter/tokens.css">
+<style>
+  /* ==========================================================
+     AI娘二创祭 · 贴纸手账风
+     奶白纸底 + 糖果色 + 贴纸/胶带/手写体，一张张二创作品
+     像贴满手账的贴纸一样铺开。
+     ========================================================== */
+
+  :root {
+    /* 糖果调色板 */
+    --ink: #40325c;
+    --ink-soft: #7d6f99;
+    --ink-faint: #b3a9c7;
+    --paper: #fff7fb;
+    --paper-2: #fffdf6;
+    --card: #ffffff;
+
+    --pink: #ff86b8;
+    --pink-soft: #ffdcea;
+    --sky: #5cc6ff;
+    --sky-soft: #d8f0ff;
+    --mint: #4fdcae;
+    --mint-soft: #d6f8ea;
+    --lemon: #ffd45e;
+    --lemon-soft: #fff3cb;
+    --lilac: #b39bff;
+    --lilac-soft: #eae3ff;
+
+    --line: 3px solid var(--ink);
+    --radius-sm: 14px;
+    --radius-md: 20px;
+    --radius-lg: 28px;
+    --radius-blob: 42% 58% 63% 37% / 41% 44% 56% 59%;
+
+    /* 字要圆、要胖、要软 */
+    --font-display: "ZCOOL KuaiLe", "Baloo 2", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    --font-body: "Baloo 2", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+
+    --shadow-pop: 0 5px 0 var(--ink);
+    --shadow-pop-lg: 0 8px 0 var(--ink);
+    --shadow-soft: 0 10px 30px rgba(64, 50, 92, .14);
+
+    --ease-bounce: cubic-bezier(.34, 1.56, .64, 1);
+    --shell: 1180px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--ink);
+    background-color: var(--paper);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(64, 50, 92, .12) 1.2px, transparent 0),
+      radial-gradient(circle at 13px 19px, rgba(255, 134, 184, .22) 1.6px, transparent 0);
+    background-size: 24px 24px, 48px 48px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  button { font: inherit; color: inherit; }
+
+  :focus-visible {
+    outline: 3px dashed var(--pink);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* ---------------------------------------------- 背景漂浮装饰 */
+  .deco { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .deco__blob {
+    position: absolute;
+    width: 260px; height: 260px;
+    border-radius: var(--radius-blob);
+    filter: blur(2px);
+    opacity: .5;
+  }
+  .deco__blob--a { top: -70px; left: -80px; background: var(--sky-soft); animation: drift 18s ease-in-out infinite; }
+  .deco__blob--b { top: 30%; right: -110px; background: var(--pink-soft); animation: drift 22s ease-in-out infinite reverse; }
+  .deco__blob--c { bottom: -90px; left: 22%; background: var(--mint-soft); animation: drift 26s ease-in-out infinite; }
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50%      { transform: translate(18px, -26px) rotate(12deg); }
+  }
+
+  .shell { width: min(var(--shell), 100% - 40px); margin-inline: auto; position: relative; z-index: 1; }
+
+  /* ---------------------------------------------- 顶部跑马灯 */
+  /* 轨道是 max-content，必须真裁掉，否则会把 body 撑宽出一条横向滚动条 */
+  .ribbon {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    background: var(--ink);
+    color: #fff;
+    overflow: clip;
+    contain: paint;
+    border-bottom: var(--line);
+  }
+  .ribbon__track {
+    display: flex;
+    gap: 32px;
+    width: max-content;
+    padding: 7px 0;
+    font-family: var(--font-display);
+    font-size: 15px;
+    letter-spacing: .06em;
+    white-space: nowrap;
+    animation: marquee 26s linear infinite;
+  }
+  .ribbon__track span { display: inline-flex; align-items: center; gap: 10px; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  /* ---------------------------------------------- 顶栏 */
+  .topbar {
+    position: sticky; top: 12px; z-index: 20;
+    margin-top: 14px;
+  }
+  .topbar__inner {
+    display: flex; align-items: center; gap: 14px;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, .86);
+    backdrop-filter: blur(10px);
+    border: var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-pop);
+  }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+  .brand__mark {
+    display: grid; place-items: center;
+    width: 42px; height: 42px;
+    font-size: 22px;
+    background: linear-gradient(140deg, var(--sky-soft), var(--sky));
+    border: var(--line);
+    border-radius: 50% 50% 46% 54% / 52% 48% 52% 48%;
+    animation: wiggle 3.4s ease-in-out infinite;
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-6deg); }
+    50%      { transform: rotate(6deg) scale(1.05); }
+  }
+  .brand__text { font-family: var(--font-display); font-size: 20px; line-height: 1.1; }
+  .brand__text small { display: block; font-family: var(--font-body); font-size: 11px; color: var(--ink-soft); letter-spacing: .14em; }
+
+  .nav { display: flex; gap: 4px; margin-left: auto; flex-wrap: wrap; }
+  .nav a {
+    padding: 6px 14px;
+    font-size: 14px;
+    text-decoration: none;
+    border-radius: 999px;
+    border: 2px solid transparent;
+    transition: transform .18s var(--ease-bounce), background .18s;
+  }
+  .nav a:hover { background: var(--lemon-soft); border-color: var(--ink); transform: translateY(-2px) rotate(-2deg); }
+
+  .search {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 6px 6px 14px;
+    background: var(--paper-2);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+  }
+  .search input {
+    width: 150px;
+    border: 0; background: none; outline: none;
+    font: inherit; font-size: 14px; color: var(--ink);
+  }
+  .search input::placeholder { color: var(--ink-faint); }
+  .search button {
+    width: 30px; height: 30px; padding: 0;
+    border: 2px solid var(--ink); border-radius: 50%;
+    background: var(--pink); cursor: pointer;
+    transition: transform .16s var(--ease-bounce);
+  }
+  .search button:hover { transform: scale(1.12) rotate(8deg); }
+
+  /* ---------------------------------------------- Hero */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 36px;
+    align-items: center;
+    padding: 52px 0 30px;
+  }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 5px 16px 6px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    background: var(--lemon);
+    border: var(--line);
+    border-radius: 999px;
+    box-shadow: 0 3px 0 var(--ink);
+    transform: rotate(-2.5deg);
+  }
+  .hero__title {
+    margin: 18px 0 6px;
+    font-family: var(--font-display);
+    font-size: clamp(42px, 7.2vw, 86px);
+    line-height: 1.02;
+    letter-spacing: .01em;
+    text-shadow: 4px 4px 0 #fff, 7px 7px 0 rgba(64, 50, 92, .18);
+  }
+  .hero__title em {
+    font-style: normal;
+    color: var(--pink);
+    -webkit-text-stroke: 2.5px var(--ink);
+    paint-order: stroke fill;
+    display: inline-block;
+    transform: rotate(-3deg);
+  }
+  .hero__sub {
+    max-width: 30em;
+    margin: 0 0 22px;
+    font-size: 16px;
+    color: var(--ink-soft);
+  }
+  .hero__sub b { color: var(--ink); }
+
+  .stats { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; }
+  .stat {
+    padding: 9px 16px;
+    background: var(--card);
+    border: var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 0 var(--ink);
+    transform: rotate(-1deg);
+  }
+  .stat:nth-child(even) { transform: rotate(1.4deg); background: var(--sky-soft); }
+  .stat:nth-child(3) { background: var(--pink-soft); }
+  .stat strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 24px;
+    line-height: 1;
+  }
+  .stat span { font-size: 12px; color: var(--ink-soft); }
+
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 24px;
+    font-family: var(--font-display);
+    font-size: 17px;
+    text-decoration: none;
+    background: var(--card);
+    border: var(--line);
+    border-radius: 999px;
+    box-shadow: var(--shadow-pop);
+    cursor: pointer;
+    transition: transform .16s var(--ease-bounce), box-shadow .16s;
+  }
+  .btn:hover { transform: translateY(-3px) rotate(-1.5deg); box-shadow: var(--shadow-pop-lg); }
+  .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+  .btn--pink { background: var(--pink); color: #fff; }
+  .btn--sky { background: var(--sky); color: #fff; }
+  .btn--mint { background: var(--mint); color: #fff; }
+
+  /* Hero 右侧：吉祥物舞台 */
+  .stage { position: relative; display: grid; place-items: center; min-height: 340px; }
+  .stage__ring {
+    position: absolute;
+    width: 300px; height: 300px;
+    border: var(--line);
+    border-radius: var(--radius-blob);
+    background: repeating-conic-gradient(from 0deg, var(--paper-2) 0deg 12deg, var(--sky-soft) 12deg 24deg);
+    animation: spin 34s linear infinite;
+    opacity: .85;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .mascot { position: relative; width: min(300px, 78%); filter: drop-shadow(0 12px 0 rgba(64, 50, 92, .12)); }
+  .mascot__bob { transform-origin: 150px 200px; animation: bob 4s ease-in-out infinite; }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50%      { transform: translateY(-12px) rotate(2deg); }
+  }
+  .mascot__tail { transform-origin: 232px 214px; animation: tail 2.4s ease-in-out infinite; }
+  @keyframes tail {
+    0%, 100% { transform: rotate(0deg); }
+    50%      { transform: rotate(-14deg); }
+  }
+
+  .bubble {
+    position: absolute;
+    top: 4px; right: -6px;
+    max-width: 190px;
+    padding: 10px 16px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    background: var(--card);
+    border: var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-pop);
+    transform: rotate(3deg);
+  }
+  .bubble::after {
+    content: "";
+    position: absolute;
+    bottom: -14px; left: 26px;
+    width: 0; height: 0;
+    border: 8px solid transparent;
+    border-top-color: var(--ink);
+  }
+  .bubble::before {
+    content: "";
+    position: absolute;
+    bottom: -8px; left: 28px;
+    width: 0; height: 0;
+    border: 6px solid transparent;
+    border-top-color: var(--card);
+    z-index: 1;
+  }
+
+  .float-emoji { position: absolute; font-size: 30px; animation: bob 5s ease-in-out infinite; }
+  .float-emoji--1 { top: 12%; left: 2%; animation-delay: .2s; }
+  .float-emoji--2 { bottom: 14%; left: 6%; animation-delay: .9s; font-size: 24px; }
+  .float-emoji--3 { top: 20%; right: 4%; animation-delay: .5s; font-size: 26px; }
+  .float-emoji--4 { bottom: 8%; right: 12%; animation-delay: 1.3s; font-size: 22px; }
+
+  /* ---------------------------------------------- 通用区块标题 */
+  .section { padding: 46px 0; }
+  .section__head { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; margin-bottom: 22px; }
+  .section__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(26px, 4vw, 38px);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section__title::before {
+    content: "";
+    width: 16px; height: 16px;
+    background: var(--pink);
+    border: var(--line);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .section__note { margin: 0; font-size: 14px; color: var(--ink-soft); }
+
+  /* ---------------------------------------------- 角色贴纸栏 */
+  .rail {
+    display: flex;
+    gap: 12px;
+    padding: 20px 18px 24px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    background: var(--card);
+    border: var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-pop);
+  }
+  .rail::-webkit-scrollbar { height: 10px; }
+  .rail::-webkit-scrollbar-thumb { background: var(--pink-soft); border-radius: 999px; }
+
+  .chip {
+    position: relative;
+    flex: 0 0 auto;
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px;
+    font-family: var(--font-display);
+    font-size: 16px;
+    background: var(--chip-bg, var(--paper-2));
+    border: var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 0 var(--ink);
+    cursor: pointer;
+    transition: transform .18s var(--ease-bounce), box-shadow .18s;
+  }
+  .chip:hover { transform: translateY(-4px) rotate(-2deg); box-shadow: var(--shadow-pop-lg); }
+  .chip[aria-pressed="true"] {
+    background: var(--chip-deep, var(--ink));
+    color: #fff;
+    transform: translateY(-4px) rotate(0deg);
+    box-shadow: var(--shadow-pop-lg);
+  }
+  .chip__dot {
+    width: 14px; height: 14px;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    background: var(--chip-deep, var(--sky));
+  }
+  .chip[aria-pressed="true"] .chip__dot { border-color: #fff; }
+  .chip__n {
+    padding: 1px 8px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    background: rgba(255, 255, 255, .75);
+    color: var(--ink);
+    border-radius: 999px;
+  }
+  .chip__alias {
+    font-family: var(--font-body);
+    font-size: 11px;
+    opacity: .7;
+  }
+
+  /* ---------------------------------------------- 筛选工具条 */
+  .toolbar {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    background: var(--paper-2);
+    border: var(--line);
+    border-radius: var(--radius-lg);
+  }
+  .pill {
+    padding: 7px 16px;
+    font-size: 14px;
+    background: var(--card);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform .16s var(--ease-bounce), background .16s;
+  }
+  .pill:hover { transform: translateY(-2px); }
+  .pill[aria-pressed="true"] { background: var(--lemon); box-shadow: 0 3px 0 var(--ink); transform: translateY(-2px); }
+  .toolbar__spacer { margin-left: auto; }
+  .count { font-size: 14px; color: var(--ink-soft); }
+  .count b { font-family: var(--font-display); font-size: 18px; color: var(--pink); }
+
+  /* ---------------------------------------------- 作品墙 */
+  .wall { columns: 4 240px; column-gap: 20px; }
+
+  .card {
+    position: relative;
+    break-inside: avoid;
+    margin: 0 0 22px;
+    padding: 12px 12px 10px;
+    background: var(--card);
+    border: var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-pop);
+    transform: rotate(var(--rot, 0deg));
+    transition: transform .24s var(--ease-bounce), box-shadow .24s;
+  }
+  .card:hover { transform: rotate(0deg) translateY(-6px) scale(1.015); box-shadow: var(--shadow-pop-lg); }
+
+  /* 胶带 */
+  .card__tape {
+    position: absolute;
+    top: -12px; left: 50%;
+    width: 74px; height: 22px;
+    margin-left: -37px;
+    background: rgba(255, 212, 94, .72);
+    border-left: 1px dashed rgba(64, 50, 92, .25);
+    border-right: 1px dashed rgba(64, 50, 92, .25);
+    transform: rotate(-4deg);
+    box-shadow: 0 2px 4px rgba(64, 50, 92, .12);
+  }
+  .card:nth-child(3n) .card__tape { background: rgba(92, 198, 255, .62); transform: rotate(5deg); }
+  .card:nth-child(4n) .card__tape { background: rgba(255, 134, 184, .55); transform: rotate(-6deg); }
+
+  .card__shot {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
+    background: var(--chip-bg, var(--sky-soft));
+  }
+  .card__img { width: 100%; height: auto; transition: transform .5s var(--ease-bounce); }
+  .card:hover .card__img { transform: scale(1.06) rotate(1deg); }
+
+  .card__veil {
+    position: absolute; inset: 0;
+    display: flex; align-items: flex-end;
+    padding: 12px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #fff;
+    background: linear-gradient(to top, rgba(64, 50, 92, .9), rgba(64, 50, 92, .1) 68%, transparent);
+    opacity: 0;
+    transition: opacity .24s;
+  }
+  .card:hover .card__veil, .card:focus-within .card__veil { opacity: 1; }
+
+  .card__cat {
+    position: absolute; top: 8px; left: 8px;
+    padding: 2px 10px 3px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    color: var(--ink);
+    background: var(--lemon);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    transform: rotate(-3deg);
+  }
+
+  .card__info { padding: 10px 4px 2px; }
+  .card__title {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 17px;
+    line-height: 1.3;
+    text-decoration: none;
+    word-break: break-word;
+  }
+  .card__title:hover { color: var(--pink); }
+  .card__row { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+  .card__char {
+    flex: 1;
+    padding: 2px 10px;
+    font-size: 12px;
+    color: var(--chip-deep, var(--ink));
+    background: var(--chip-bg, var(--paper-2));
+    border: 2px solid currentColor;
+    border-radius: 999px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .fav {
+    width: 32px; height: 32px; flex-shrink: 0;
+    padding: 0;
+    font-size: 15px;
+    line-height: 1;
+    background: var(--paper-2);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform .18s var(--ease-bounce), background .18s;
+  }
+  .fav:hover { transform: scale(1.18) rotate(-10deg); }
+  .fav[aria-pressed="true"] { background: var(--pink); }
+  @keyframes pop { 50% { transform: scale(1.5) rotate(12deg); } }
+  .fav.is-pop { animation: pop .34s var(--ease-bounce); }
+
+  .empty {
+    padding: 60px 20px;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 20px;
+    color: var(--ink-soft);
+    background: var(--card);
+    border: var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-pop);
+  }
+  .empty span { display: block; font-size: 44px; margin-bottom: 10px; }
+
+  .more { display: grid; place-items: center; margin-top: 10px; }
+
+  /* ---------------------------------------------- 精选大图（二创评论区） */
+  .spot {
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 28px;
+    align-items: center;
+    padding: 26px;
+    background: linear-gradient(150deg, var(--sky-soft), var(--lilac-soft) 55%, var(--pink-soft));
+    border: var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-pop);
+  }
+  .spot__frame {
+    position: relative;
+    padding: 14px;
+    background: var(--card);
+    border: var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-pop);
+    transform: rotate(-1.6deg);
+  }
+  .spot__frame img {
+    width: 100%;
+    max-height: 460px;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    background: var(--paper-2);
+  }
+  .spot__pin {
+    position: absolute; top: -16px; right: 22px;
+    font-size: 32px;
+    filter: drop-shadow(0 3px 0 rgba(64, 50, 92, .2));
+  }
+  .spot__body { position: relative; }
+  .spot__kicker {
+    display: inline-block;
+    padding: 3px 12px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    background: var(--card);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    transform: rotate(-2deg);
+  }
+  .spot__title {
+    margin: 12px 0 6px;
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3.4vw, 34px);
+    line-height: 1.2;
+  }
+  .spot__meta { font-size: 13px; color: var(--ink-soft); margin-bottom: 16px; }
+
+  .say {
+    position: relative;
+    padding: 18px 20px;
+    background: var(--card);
+    border: var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: 0 5px 0 var(--ink);
+  }
+  .say::before {
+    content: "";
+    position: absolute; top: -16px; left: 30px;
+    width: 0; height: 0;
+    border: 9px solid transparent;
+    border-bottom-color: var(--ink);
+  }
+  .say::after {
+    content: "";
+    position: absolute; top: -9px; left: 32px;
+    width: 0; height: 0;
+    border: 7px solid transparent;
+    border-bottom-color: var(--card);
+    z-index: 1;
+  }
+  .say__who {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 8px;
+    font-family: var(--font-display);
+    font-size: 15px;
+  }
+  .say__who i {
+    width: 24px; height: 24px;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    background: var(--chip-deep, var(--pink));
+  }
+  .say__text { margin: 0; font-size: 15px; line-height: 1.75; }
+  .say__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .say__tags span {
+    padding: 2px 10px;
+    font-size: 12px;
+    background: var(--lilac-soft);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+  }
+  .spot__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+
+  /* ---------------------------------------------- 标签墙 */
+  .cloud { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tag {
+    padding: 8px 16px;
+    font-family: var(--font-display);
+    font-size: 15px;
+    background: var(--card);
+    border: var(--line);
+    border-radius: 999px;
+    box-shadow: 0 4px 0 var(--ink);
+    cursor: pointer;
+    transition: transform .18s var(--ease-bounce);
+  }
+  .tag:hover { transform: translateY(-4px) rotate(-3deg); }
+  .tag:nth-child(3n) { background: var(--mint-soft); }
+  .tag:nth-child(4n) { background: var(--pink-soft); }
+  .tag:nth-child(5n) { background: var(--sky-soft); }
+  .tag b { font-family: var(--font-body); font-size: 12px; color: var(--ink-soft); font-weight: 600; }
+  .tag--lg { font-size: 19px; }
+  .tag--xl { font-size: 23px; }
+
+  /* ---------------------------------------------- 页脚 */
+  .foot {
+    margin: 60px 0 40px;
+    padding: 32px 26px;
+    text-align: center;
+    background: var(--ink);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-pop);
+    border: var(--line);
+  }
+  .foot__title { margin: 0 0 10px; font-family: var(--font-display); font-size: clamp(22px, 3.4vw, 32px); }
+  .foot p { margin: 0 auto 18px; max-width: 40em; font-size: 14px; color: rgba(255, 255, 255, .78); }
+  .foot__links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .foot__links a {
+    padding: 8px 18px;
+    font-family: var(--font-display);
+    font-size: 15px;
+    text-decoration: none;
+    color: var(--ink);
+    background: var(--lemon);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    transition: transform .16s var(--ease-bounce);
+  }
+  .foot__links a:hover { transform: translateY(-3px) rotate(-2deg); }
+  .foot small { display: block; margin-top: 20px; font-size: 12px; color: rgba(255, 255, 255, .5); }
+
+  /* ---------------------------------------------- 点击爱心 */
+  .spark {
+    position: fixed;
+    z-index: 90;
+    pointer-events: none;
+    font-size: 20px;
+    animation: spark 900ms ease-out forwards;
+  }
+  @keyframes spark {
+    0%   { opacity: 1; transform: translate(-50%, -50%) scale(.5); }
+    100% { opacity: 0; transform: translate(-50%, -160%) scale(1.35) rotate(var(--r, 20deg)); }
+  }
+
+  /* ---------------------------------------------- 入场动画 */
+  .reveal { animation: rise .6s var(--ease-bounce) backwards; }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(22px) scale(.96); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* ---------------------------------------------- 角色贴纸（chip + 人设角标） */
+  /* 角标是 chip 的兄弟节点而不是子节点，避免按钮套按钮 */
+  .sticker { position: relative; flex: 0 0 auto; display: flex; }
+  .chip__info {
+    position: absolute;
+    top: -8px; right: -8px;
+    z-index: 2;
+    width: 26px; height: 26px;
+    padding: 0;
+    font-size: 12px;
+    line-height: 1;
+    background: var(--lemon);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform .18s var(--ease-bounce);
+  }
+  .chip__info:hover { transform: scale(1.22) rotate(-12deg); }
+
+  /* ---------------------------------------------- 梗图速递带 */
+  .strip { position: relative; }
+  .strip__track {
+    display: flex;
+    gap: 16px;
+    padding: 22px 18px 26px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    background: var(--card);
+    border: var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-pop);
+    scrollbar-width: thin;
+  }
+  .strip__track::-webkit-scrollbar { height: 10px; }
+  .strip__track::-webkit-scrollbar-thumb { background: var(--lemon); border-radius: 999px; }
+
+  .meme {
+    position: relative;
+    flex: 0 0 196px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    text-decoration: none;
+    background: var(--paper-2);
+    border: var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 0 var(--ink);
+    transform: rotate(var(--rot, 0deg));
+    transition: transform .2s var(--ease-bounce), box-shadow .2s;
+  }
+  .meme:hover { transform: translateY(-6px) rotate(0deg); box-shadow: var(--shadow-pop-lg); }
+  .meme__pic { position: relative; display: block; aspect-ratio: 1 / 1; overflow: hidden; background: var(--paper); }
+  .meme__pic img { width: 100%; height: 100%; object-fit: cover; }
+  .meme__no {
+    position: absolute; top: 8px; right: 8px;
+    padding: 1px 8px;
+    font-size: 10px; font-weight: 600; letter-spacing: .06em;
+    background: rgba(255, 255, 255, .9);
+    border: 2px dashed var(--ink);
+    border-radius: 999px;
+  }
+  .meme__cap { display: block; padding: 10px 12px 12px; }
+  .meme__name {
+    display: block;
+    margin-bottom: 6px;
+    font-family: var(--font-display);
+    font-size: 15px;
+    line-height: 1.3;
+  }
+  .meme__say {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .meme__say b { color: var(--chip-deep, var(--pink)); }
+
+  .strip__nav {
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    width: 44px; height: 44px;
+    margin-top: -22px;
+    font-size: 20px;
+    color: #fff;
+    background: var(--pink);
+    border: var(--line);
+    border-radius: 50%;
+    box-shadow: 0 4px 0 var(--ink);
+    cursor: pointer;
+    transition: transform .16s var(--ease-bounce);
+  }
+  .strip__nav:hover { transform: scale(1.1); }
+  .strip__nav--prev { left: -14px; }
+  .strip__nav--next { right: -14px; }
+
+  /* ---------------------------------------------- 角色吐槽墙（群聊） */
+  .board {
+    padding: 22px;
+    background: linear-gradient(160deg, var(--lilac-soft), var(--sky-soft) 60%, var(--pink-soft));
+    border: var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-pop);
+  }
+  .board__row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    animation: rise .5s var(--ease-bounce) backwards;
+  }
+  .board__row:last-child { margin-bottom: 0; }
+  .board__ava {
+    flex: 0 0 auto;
+    display: grid; place-items: center;
+    width: 44px; height: 44px;
+    font-family: var(--font-display);
+    font-size: 20px;
+    color: var(--chip-deep, var(--ink));
+    background: var(--chip-bg, var(--card));
+    border: var(--line);
+    border-radius: 50% 50% 46% 54% / 52% 48% 52% 48%;
+  }
+  .board__body { flex: 1; min-width: 0; }
+  .board__name {
+    display: inline-block;
+    margin-bottom: 5px;
+    padding: 1px 10px 2px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    color: var(--chip-deep, var(--ink));
+    background: var(--card);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+  }
+  .board__bubble {
+    margin: 0;
+    padding: 12px 16px;
+    font-size: 15px;
+    line-height: 1.75;
+    word-break: break-word;
+    background: var(--card);
+    border: var(--line);
+    border-radius: 4px var(--radius-md) var(--radius-md) var(--radius-md);
+    box-shadow: 0 3px 0 rgba(64, 50, 92, .18);
+  }
+  .board__meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; font-size: 12px; color: var(--ink-soft); }
+  .board__meta a { text-decoration: none; border-bottom: 2px dotted var(--ink-faint); }
+  .board__meta a:hover { color: var(--pink); border-bottom-color: var(--pink); }
+  .board__foot { display: grid; place-items: center; margin-top: 18px; }
+
+  /* ---------------------------------------------- 作品编号章 */
+  .stamp {
+    position: absolute; top: 8px; right: 8px;
+    padding: 1px 8px;
+    font-size: 10px; font-weight: 600; letter-spacing: .08em;
+    color: var(--ink);
+    background: rgba(255, 255, 255, .88);
+    border: 2px dashed var(--ink);
+    border-radius: 999px;
+    transform: rotate(6deg);
+  }
+
+  /* 卡片浮层改让角色本人开口（原来浮的是作品说明书） */
+  .card__veil { flex-direction: column; justify-content: flex-end; align-items: stretch; gap: 5px; }
+  .card__veil b { font-family: var(--font-display); font-size: 12.5px; }
+  .card__veil span {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ---------------------------------------------- 话题墙 */
+  .tag__hash { font-family: var(--font-display); color: var(--pink); }
+  .tag--hot { background: var(--lemon) !important; }
+
+  /* ---------------------------------------------- 人设便签（弹层） */
+  .sheet { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 20px; }
+  .sheet[hidden] { display: none; }
+  .sheet__scrim { position: absolute; inset: 0; background: rgba(64, 50, 92, .45); backdrop-filter: blur(3px); }
+  .sheet__card {
+    position: relative;
+    width: min(460px, 100%);
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: 24px;
+    background: var(--card);
+    border: var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-pop-lg);
+    transform: rotate(-.6deg);
+    animation: rise .32s var(--ease-bounce);
+  }
+  .sheet__close {
+    position: absolute; top: 12px; right: 12px;
+    width: 34px; height: 34px;
+    padding: 0;
+    font-size: 15px;
+    background: var(--paper-2);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform .16s var(--ease-bounce);
+  }
+  .sheet__close:hover { transform: rotate(90deg) scale(1.1); }
+  .sheet__head { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+  .sheet__ava {
+    display: grid; place-items: center;
+    flex-shrink: 0;
+    width: 62px; height: 62px;
+    font-family: var(--font-display);
+    font-size: 27px;
+    color: var(--chip-deep, var(--ink));
+    background: var(--chip-bg, var(--sky-soft));
+    border: var(--line);
+    border-radius: 50% 50% 46% 54% / 52% 48% 52% 48%;
+    box-shadow: 0 4px 0 var(--ink);
+  }
+  .sheet__name { margin: 0; font-family: var(--font-display); font-size: 26px; line-height: 1.2; }
+  .sheet__alias { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .sheet__alias span {
+    padding: 1px 10px;
+    font-size: 12px;
+    background: var(--lemon-soft);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+  }
+  .sheet__row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .sheet__kv {
+    flex: 1 1 auto;
+    padding: 8px 14px;
+    background: var(--paper-2);
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
+  }
+  .sheet__kv strong { display: block; font-family: var(--font-display); font-size: 19px; line-height: 1.2; }
+  .sheet__kv span { font-size: 11px; color: var(--ink-soft); }
+  .sheet__swatch { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+  .sheet__swatch i { width: 26px; height: 26px; border: var(--line); border-radius: 50%; }
+  .sheet__label { display: block; margin-bottom: 8px; font-family: var(--font-display); font-size: 15px; }
+  .sheet__quote {
+    margin: 0 0 16px;
+    padding: 14px 18px;
+    font-size: 14.5px;
+    line-height: 1.75;
+    background: var(--pink-soft);
+    border: var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 0 var(--ink);
+  }
+  .sheet__quote cite { display: block; margin-top: 8px; font-size: 12px; font-style: normal; color: var(--ink-soft); }
+  .sheet__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+  .sheet__tags span {
+    padding: 2px 10px;
+    font-size: 12px;
+    background: var(--sky-soft);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+  }
+  .sheet__mini { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .sheet__mini img { width: 76px; height: 76px; object-fit: cover; border: var(--line); border-radius: var(--radius-sm); }
+  .sheet__mini p { margin: 0; font-size: 13px; color: var(--ink-soft); }
+  .sheet__mini b { display: block; margin-bottom: 4px; font-family: var(--font-display); font-size: 16px; color: var(--ink); }
+  .sheet__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  /* ---------------------------------------------- 视图切换（单文件里的「多页」） */
+  /* 三个视图靠 hash 切换，非当前视图直接 hidden，浏览器前进 / 后退照常可用 */
+  [data-view][hidden] { display: none; }
+  main { min-height: 62vh; }
+  .nav a.is-on { background: var(--lemon); border-color: var(--ink); box-shadow: 0 3px 0 var(--ink); }
+  .hook {
+    margin-left: auto;
+    padding: 6px 16px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    text-decoration: none;
+    background: var(--lemon-soft);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    box-shadow: 0 3px 0 var(--ink);
+    transition: transform .16s var(--ease-bounce);
+  }
+  .hook:hover { transform: translateY(-3px) rotate(-2deg); }
+
+  /* ---------------------------------------------- 响应式 */
+  @media (max-width: 1000px) {
+    .hero { grid-template-columns: 1fr; gap: 20px; padding-top: 40px; }
+    .stage { order: -1; min-height: 280px; }
+    .spot { grid-template-columns: 1fr; }
+    .wall { columns: 3 200px; }
+  }
+  @media (max-width: 760px) {
+    .shell { width: min(var(--shell), 100% - 24px); }
+    .topbar { top: 8px; }
+    /* 导航现在是「翻页」入口，小屏不能再藏，改成第二行铺满 */
+    .topbar__inner { flex-wrap: wrap; gap: 8px 10px; }
+    .nav { order: 3; width: 100%; margin-left: 0; justify-content: center; }
+    .nav a { padding: 4px 12px; font-size: 13px; }
+    .search { margin-left: auto; }
+    .search input { width: 96px; }
+    .brand__text { font-size: 17px; }
+    .wall { columns: 2 150px; column-gap: 12px; }
+    .card { margin-bottom: 14px; padding: 8px 8px 6px; }
+    .card__title { font-size: 15px; }
+    .card__veil { display: none; }
+    .bubble { font-size: 12px; right: -4px; }
+    .section { padding: 32px 0; }
+    .spot { padding: 16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="deco" aria-hidden="true">
+  <div class="deco__blob deco__blob--a"></div>
+  <div class="deco__blob deco__blob--b"></div>
+  <div class="deco__blob deco__blob--c"></div>
+</div>
+
+<div class="ribbon" aria-hidden="true">
+  <div class="ribbon__track" id="ribbon"></div>
+</div>
+
+<div class="shell">
+  <header class="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="#top">
+        <span class="brand__mark">🐳</span>
+        <span class="brand__text">蓝色大肥鱼<small>AI 娘二创祭</small></span>
+      </a>
+      <nav class="nav" aria-label="页内导航">
+        <a href="#/" data-nav="home">首页</a>
+        <a href="#/board" data-nav="board">吐槽墙</a>
+        <a href="#/gallery" data-nav="gallery">作品墙</a>
+      </nav>
+      <form class="search" id="searchForm" role="search">
+        <label class="visually-hidden" for="q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">搜索作品</label>
+        <input id="q" type="search" placeholder="搜作品 / 标签 / 角色…" autocomplete="off">
+        <button type="submit" aria-label="搜索">🔍</button>
+      </form>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ============================= Hero ============================= -->
+    <section class="hero" data-view="home">
+      <div>
+        <span class="badge" id="heroBadge">🎉 国庆同人祭</span>
+        <h1 class="hero__title">AI娘<br><em>二创祭</em></h1>
+        <p class="hero__sub">
+          把大模型拟人化之后，人类到底画了些什么？<b>DeepSeek娘、Claude娘、通义千问娘……</b>
+          这里的每一张表情包、插画、设定图和漫画，都是人类画给她们的。点开就能看，喜欢就点右上角的小心心收藏 ♥
+        </p>
+        <div class="stats" id="heroStats"></div>
+        <div class="cta-row">
+          <a class="btn btn--pink" href="#gallery">🐟 去刷作品墙</a>
+          <button class="btn btn--sky" type="button" id="luckyBtn">🎲 随便看一张</button>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="stage__ring" aria-hidden="true"></div>
+        <span class="float-emoji float-emoji--1" aria-hidden="true">✨</span>
+        <span class="float-emoji float-emoji--2" aria-hidden="true">💙</span>
+        <span class="float-emoji float-emoji--3" aria-hidden="true">🎀</span>
+        <span class="float-emoji float-emoji--4" aria-hidden="true">🐟</span>
+
+        <svg class="mascot" viewBox="0 0 300 300" role="img" aria-label="蓝色大肥鱼的拟人化形象">
+          <defs>
+            <linearGradient id="hairGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#9fe2ff"/>
+              <stop offset="1" stop-color="#3b6fd4"/>
+            </linearGradient>
+            <linearGradient id="finGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#8fd6f8"/>
+              <stop offset="1" stop-color="#3f74d8"/>
+            </linearGradient>
+          </defs>
+
+          <g class="mascot__tail">
+            <path d="M230 216c27-10 42-31 46-54-19 7-31-1-37-14-15 17-21 42-9 68z" fill="url(#finGrad)" stroke="#2f4f9e" stroke-width="4" stroke-linejoin="round"/>
+          </g>
+
+          <g class="mascot__bob">
+            <ellipse cx="76" cy="170" rx="20" ry="35" fill="url(#finGrad)" stroke="#2f4f9e" stroke-width="4" transform="rotate(-18 76 170)"/>
+            <ellipse cx="224" cy="170" rx="20" ry="35" fill="url(#finGrad)" stroke="#2f4f9e" stroke-width="4" transform="rotate(18 224 170)"/>
+
+            <circle cx="150" cy="146" r="86" fill="url(#hairGrad)" stroke="#2f4f9e" stroke-width="4"/>
+            <circle cx="150" cy="160" r="63" fill="#ffeadf" stroke="#2f4f9e" stroke-width="4"/>
+
+            <path d="M88 120c8-35 34-58 62-58s54 23 62 58c-16-15-34-7-41 4-8-15-24-19-34-9-12-13-30-7-49 5z" fill="url(#hairGrad)" stroke="#2f4f9e" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M150 60c9-16 5-31-6-39 15 4 26 17 26 32" fill="none" stroke="#2f4f9e" stroke-width="6" stroke-linecap="round"/>
+
+            <ellipse cx="123" cy="160" rx="11" ry="14" fill="#3a2f4f"/>
+            <ellipse cx="177" cy="160" rx="11" ry="14" fill="#3a2f4f"/>
+            <circle cx="127" cy="155" r="4" fill="#fff"/>
+            <circle cx="181" cy="155" r="4" fill="#fff"/>
+
+            <ellipse cx="104" cy="179" rx="12" ry="7" fill="#ff9dc2" opacity=".7"/>
+            <ellipse cx="196" cy="179" rx="12" ry="7" fill="#ff9dc2" opacity=".7"/>
+
+            <path d="M141 182c4 7 14 7 18 0" fill="none" stroke="#c0658e" stroke-width="4" stroke-linecap="round"/>
+
+            <path d="M214 104l6 12 13 2-9 9 2 13-12-6-12 6 2-13-9-9 13-2z" fill="#ffd45e" stroke="#2f4f9e" stroke-width="4" stroke-linejoin="round"/>
+          </g>
+        </svg>
+
+        <p class="bubble" id="mascotSay">加载中…</p>
+      </div>
+    </section>
+
+    <!-- ============================= 角色贴纸 ============================= -->
+    <section class="section" id="roles" data-view="home">
+      <div class="section__head">
+        <h2 class="section__title">角色贴纸册</h2>
+        <p class="section__note" id="rolesNote"></p>
+      </div>
+      <div class="rail" id="rail" role="group" aria-label="按角色筛选"></div>
+    </section>
+
+    <!-- ============================= 梗图速递 ============================= -->
+    <section class="section" id="memes" data-view="home">
+      <div class="section__head">
+        <h2 class="section__title">梗图速递</h2>
+        <p class="section__note" id="memesNote"></p>
+        <a class="hook" href="#/gallery" data-gocat="meme">去作品墙看全部梗图 →</a>
+      </div>
+      <div class="strip">
+        <button class="strip__nav strip__nav--prev" type="button" data-dir="-1" aria-label="往前翻">‹</button>
+        <div class="strip__track" id="strip"></div>
+        <button class="strip__nav strip__nav--next" type="button" data-dir="1" aria-label="往后翻">›</button>
+      </div>
+    </section>
+
+    <!-- ============================= 角色吐槽墙 ============================= -->
+    <section class="section" id="board" data-view="board">
+      <div class="section__head">
+        <h2 class="section__title">角色吐槽墙</h2>
+        <p class="section__note">被画成什么样，本人可是有话要说的（原话，不是我们编的）💬</p>
+      </div>
+      <div class="board" id="boardBox"></div>
+      <div class="board__foot">
+        <button class="btn btn--sky" type="button" id="boardNext">🔁 再听一轮吐槽</button>
+      </div>
+    </section>
+
+    <!-- ============================= 本鱼精选 ============================= -->
+    <section class="section" id="pick" data-view="home">
+      <div class="section__head">
+        <h2 class="section__title">本鱼精选</h2>
+        <p class="section__note">随机翻一张二创，顺便听听被画的那位怎么说 💬</p>
+        <a class="hook" href="#/gallery">去作品墙看全部 →</a>
+      </div>
+      <div class="spot" id="spot"></div>
+    </section>
+
+    <!-- ============================= 作品墙 ============================= -->
+    <section class="section" id="gallery" data-view="gallery">
+      <div class="section__head">
+        <h2 class="section__title">作品墙</h2>
+        <p class="section__note" id="galleryNote"></p>
+      </div>
+
+      <div class="toolbar">
+        <div id="catFilters" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+        <span class="toolbar__spacer"></span>
+        <button class="pill" type="button" id="sortNew" aria-pressed="true">🕒 最新</button>
+        <button class="pill" type="button" id="sortRand" aria-pressed="false">🎲 随机漫游</button>
+        <button class="pill" type="button" id="favOnly" aria-pressed="false">♥ 只看收藏</button>
+        <span class="count" id="count"></span>
+      </div>
+
+      <div class="wall" id="wall"></div>
+      <div class="more" id="more"></div>
+    </section>
+
+    <!-- ============================= 话题墙 ============================= -->
+    <section class="section" id="topics" data-view="home">
+      <div class="section__head">
+        <h2 class="section__title">话题墙</h2>
+        <p class="section__note">二创里被聊得最多的话题，点一下直接跳过去</p>
+      </div>
+      <div class="cloud" id="cloud"></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <h2 class="foot__title">🐳 也来画一张吧</h2>
+    <p id="footText"></p>
+    <div class="foot__links" id="footLinks"></div>
+    <small id="footMeta"></small>
+  </footer>
+</div>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="角色人设便签">
+  <div class="sheet__scrim" data-close></div>
+  <div class="sheet__card" id="sheetCard"></div>
+</div>
+
+<script src="../../starter/data.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var DATA = window.SITE_DATA;
+  var wall = document.getElementById("wall");
+
+  if (!DATA || !Array.isArray(DATA.works)) {
+    wall.innerHTML = '<div class="empty"><span>🐟</span>数据没加载出来，看看 data.js 的路径对不对？</div>';
+    return;
+  }
+
+  var works = DATA.works;
+  var characters = DATA.characters || [];
+  var categories = DATA.categories || [];
+
+  var charById = {};
+  characters.forEach(function (c) { charById[c.id] = c; });
+
+  var catById = {};
+  categories.forEach(function (c) { catById[c.id] = c; });
+
+  /* 分类小图标：纯 UI 装饰，不认识的新分类会退回 ✨ */
+  var CAT_ICON = { meme: "😂", illustration: "🎨", setting: "📐", comic: "📖" };
+  var catIcon = function (id) { return CAT_ICON[id] || "✨"; };
+
+  /* ---------------------------------------------------- 工具 */
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function charName(w) {
+    var c = charById[w.characterId];
+    return c ? c.name : "其他角色";
+  }
+  /* 投稿编号章：取 slug 尾部四位流水号，纯装饰 */
+  function stampOf(slug) {
+    var m = /(\d{4})$/.exec(String(slug || ""));
+    return m ? "NO." + m[1] : "";
+  }
+  function timeOf(w) { return new Date(w.createdAt).getTime() || 0; }
+  function fmtDate(w) {
+    var d = new Date(w.createdAt);
+    if (isNaN(d)) return "";
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+  function shuffle(list) {
+    var a = list.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  /* 角色配色：数据里的 colorSoft / colorDeep */
+  function styleOf(characterId) {
+    var c = charById[characterId];
+    if (!c) return "";
+    return "--chip-bg:" + c.colorSoft + ";--chip-deep:" + c.colorDeep + ";";
+  }
+
+  /* ---------------------------------------------------- 收藏（localStorage） */
+  var FAV_KEY = "fatfish-fav-v1";
+  var favs = {};
+  try { favs = JSON.parse(localStorage.getItem(FAV_KEY) || "{}") || {}; } catch (e) { favs = {}; }
+  function saveFavs() {
+    try { localStorage.setItem(FAV_KEY, JSON.stringify(favs)); } catch (e) { /* 隐私模式下忽略 */ }
+  }
+  function favCount() { return Object.keys(favs).length; }
+
+  /* ---------------------------------------------------- 状态 */
+  var state = { char: "", cat: "", q: "", sort: "new", favOnly: false, limit: 24, randomOrder: null };
+
+  /* ---------------------------------------------------- 顶部跑马灯 */
+  (function ribbon() {
+    var line = [
+      "🐳 蓝色大肥鱼 · AI 娘二创祭",
+      "🎉 " + works.length + " 件二创作品在线",
+      "💙 DeepSeek娘 · Claude娘 · 通义千问娘",
+      "🎨 表情包 / 插画 / 设定图 / 漫画",
+      "✨ 每一张都是人类画给她们的"
+    ].join("</span><span>");
+    var html = "<span>" + line + "</span>";
+    document.getElementById("ribbon").innerHTML = html + html;
+  })();
+
+  /* ---------------------------------------------------- Hero 数字 */
+  (function heroStats() {
+    var withWorks = characters.filter(function (c) {
+      return works.some(function (w) { return w.characterId === c.id; });
+    });
+    var tagSet = {};
+    works.forEach(function (w) { (w.tags || []).forEach(function (t) { tagSet[t] = 1; }); });
+
+    var latest = works.reduce(function (a, b) { return timeOf(b) > timeOf(a) ? b : a; }, works[0]);
+
+    document.getElementById("heroStats").innerHTML = [
+      '<div class="stat"><strong>' + works.length + '</strong><span>件二创作品</span></div>',
+      '<div class="stat"><strong>' + withWorks.length + '</strong><span>位 AI 娘</span></div>',
+      '<div class="stat"><strong>' + Object.keys(tagSet).length + '</strong><span>个标签</span></div>',
+      '<div class="stat"><strong>' + categories.length + '</strong><span>种分类</span></div>'
+    ].join("");
+
+    document.getElementById("mascotSay").textContent =
+      "本鱼今天收了 " + works.length + " 张二创，最新一张是 " + fmtDate(latest) + " 画的！";
+    document.getElementById("heroBadge").textContent = "🎉 最近更新 " + fmtDate(latest);
+  })();
+
+  /* ---------------------------------------------------- 角色贴纸册 */
+  var rail = document.getElementById("rail");
+  (function buildRail() {
+    var html =
+      '<div class="sticker">' +
+        '<button class="chip" type="button" data-id="" aria-pressed="true" style="--chip-bg:#fff3cb;--chip-deep:#40325c">' +
+          '<span class="chip__dot"></span>全部角色<span class="chip__n">' + works.length + "</span>" +
+        "</button>" +
+      "</div>";
+
+    characters.forEach(function (c) {
+      var n = works.filter(function (w) { return w.characterId === c.id; }).length;
+      if (!n) return; /* 没作品的角色不上墙 */
+      var alias = (c.aliases && c.aliases[0]) ? '<span class="chip__alias">/ ' + esc(c.aliases[0]) + "</span>" : "";
+      html += '<div class="sticker" style="' + styleOf(c.id) + '">' +
+        '<button class="chip" type="button" data-id="' + esc(c.id) + '" aria-pressed="false">' +
+          '<span class="chip__dot"></span>' + esc(c.name) + alias +
+          '<span class="chip__n">' + n + "</span>" +
+        "</button>" +
+        '<button class="chip__info" type="button" data-info="' + esc(c.id) +
+          '" aria-label="看 ' + esc(c.name) + ' 的人设便签" title="人设便签">💬</button>' +
+      "</div>";
+    });
+    rail.innerHTML = html;
+
+    var shown = characters.filter(function (c) {
+      return works.some(function (w) { return w.characterId === c.id; });
+    }).length;
+    document.getElementById("rolesNote").textContent =
+      "目前有 " + shown + " 位 AI 娘被画过；点贴纸只看她，点右上角 💬 看人设便签";
+
+    rail.addEventListener("click", function (e) {
+      var info = e.target.closest(".chip__info");
+      if (info) { openSheet(info.dataset.info); return; }
+
+      var btn = e.target.closest(".chip");
+      if (!btn) return;
+      state.char = btn.dataset.id;
+      state.limit = 24;
+      syncChips();
+      render();
+    });
+  })();
+
+  /* ---------------------------------------------------- 分类筛选 */
+  var catFilters = document.getElementById("catFilters");
+  (function buildCats() {
+    var html = '<button class="pill" type="button" data-cat="" aria-pressed="true">🌈 全部</button>';
+    categories.forEach(function (c) {
+      var n = works.filter(function (w) { return (w.categoryIds || []).indexOf(c.id) > -1; }).length;
+      html += '<button class="pill" type="button" data-cat="' + esc(c.id) + '" aria-pressed="false" title="' + esc(c.description || "") + '">' +
+        catIcon(c.id) + " " + esc(c.name) + " <b>" + n + "</b></button>";
+    });
+    catFilters.innerHTML = html;
+
+    catFilters.addEventListener("click", function (e) {
+      var btn = e.target.closest(".pill");
+      if (!btn) return;
+      state.cat = btn.dataset.cat;
+      state.limit = 24;
+      syncCatPills();
+      render();
+    });
+  })();
+
+  /* ---------------------------------------------------- 排序 / 收藏筛选 */
+  var sortNew = document.getElementById("sortNew");
+  var sortRand = document.getElementById("sortRand");
+  var favOnlyBtn = document.getElementById("favOnly");
+
+  function setSort(kind) {
+    state.sort = kind;
+    state.randomOrder = null;
+    state.limit = 24;
+    sortNew.setAttribute("aria-pressed", String(kind === "new"));
+    sortRand.setAttribute("aria-pressed", String(kind === "random"));
+    render();
+  }
+  sortNew.addEventListener("click", function () { setSort("new"); });
+  sortRand.addEventListener("click", function () { setSort("random"); });
+  favOnlyBtn.addEventListener("click", function () {
+    state.favOnly = !state.favOnly;
+    favOnlyBtn.setAttribute("aria-pressed", String(state.favOnly));
+    state.limit = 24;
+    render();
+  });
+
+  /* ---------------------------------------------------- 搜索 */
+  document.getElementById("searchForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    state.q = document.getElementById("q").value.trim();
+    state.limit = 24;
+    render();
+  });
+  document.getElementById("q").addEventListener("input", function (e) {
+    state.q = e.target.value.trim();
+    state.limit = 24;
+    render();
+  });
+
+  /* ---------------------------------------------------- 筛选逻辑 */
+  function filtered() {
+    var list = works.slice();
+
+    if (state.char) {
+      list = list.filter(function (w) { return w.characterId === state.char; });
+    }
+    if (state.cat) {
+      list = list.filter(function (w) { return (w.categoryIds || []).indexOf(state.cat) > -1; });
+    }
+    if (state.favOnly) {
+      list = list.filter(function (w) { return favs[w.slug]; });
+    }
+    if (state.q) {
+      var q = state.q.toLowerCase();
+      list = list.filter(function (w) {
+        var hay = [w.name, w.description, w.commentary, charName(w), (w.tags || []).join(" ")].join(" ").toLowerCase();
+        return hay.indexOf(q) > -1;
+      });
+    }
+
+    if (state.sort === "random") {
+      if (!state.randomOrder) state.randomOrder = shuffle(works.map(function (w) { return w.slug; }));
+      var pos = {};
+      state.randomOrder.forEach(function (s, i) { pos[s] = i; });
+      list.sort(function (a, b) { return pos[a.slug] - pos[b.slug]; });
+    } else {
+      list.sort(function (a, b) { return timeOf(b) - timeOf(a); });
+    }
+    return list;
+  }
+
+  /* ---------------------------------------------------- 作品墙渲染 */
+  var countEl = document.getElementById("count");
+  var galleryNote = document.getElementById("galleryNote");
+
+  function cardHTML(w, i) {
+    var cats = (w.categoryIds || []).map(function (id) { return catById[id]; }).filter(Boolean);
+    var catName = cats.length ? cats[0].name : "";
+    var stars = favs[w.slug] ? "true" : "false";
+    var rot = ((i % 5) - 2) * 0.7;
+    var ratio = (w.width && w.height) ? (w.width + " / " + w.height) : "1 / 1";
+    var no = stampOf(w.slug);
+    /* 浮层优先让角色本人开口；实在没有 commentary 才退回作品说明 */
+    var veil = w.commentary
+      ? "<b>" + esc(charName(w)) + " 说：</b><span>" + esc(w.commentary) + "</span>"
+      : "<span>" + esc((w.description || "").slice(0, 90)) + "</span>";
+
+    return '<article class="card reveal" style="' + styleOf(w.characterId) +
+        "--rot:" + rot.toFixed(2) + "deg;animation-delay:" + Math.min(i, 16) * 28 + 'ms">' +
+      '<span class="card__tape" aria-hidden="true"></span>' +
+      '<a class="card__shot" href="' + esc(w.page) + '" target="_blank" rel="noopener">' +
+        '<img class="card__img" src="' + esc(w.thumb) + '" alt="' + esc(w.description || w.name) +
+          '" loading="lazy" style="aspect-ratio:' + ratio + '">' +
+        (catName ? '<span class="card__cat">' + catIcon(cats[0].id) + " " + esc(catName) + "</span>" : "") +
+        (no ? '<span class="stamp" aria-hidden="true">' + no + "</span>" : "") +
+        '<span class="card__veil">' + veil + "</span>" +
+      "</a>" +
+      '<div class="card__info">' +
+        '<a class="card__title" href="' + esc(w.page) + '" target="_blank" rel="noopener">' + esc(w.name) + "</a>" +
+        '<div class="card__row">' +
+          '<span class="card__char">' + esc(charName(w)) + "</span>" +
+          '<button class="fav" type="button" data-slug="' + esc(w.slug) + '" aria-pressed="' + stars +
+            '" aria-label="收藏《' + esc(w.name) + '》" title="收藏">♥</button>' +
+        "</div>" +
+      "</div>" +
+    "</article>";
+  }
+
+  function render() {
+    var list = filtered();
+    var shown = list.slice(0, state.limit);
+
+    if (!list.length) {
+      wall.innerHTML = '<div class="empty"><span>🐟</span>' +
+        (state.favOnly ? "还没有收藏，点作品右下角的小心心试试" : "这里空空的，换个关键词或筛选吧") + "</div>";
+    } else {
+      wall.innerHTML = shown.map(cardHTML).join("");
+    }
+
+    countEl.innerHTML = "共 <b>" + list.length + "</b> 件";
+    galleryNote.textContent = [
+      state.char ? charById[state.char].name : "",
+      state.cat ? (catById[state.cat] || {}).name : "",
+      state.q ? "搜索「" + state.q + "」" : "",
+      state.favOnly ? "只看收藏" : ""
+    ].filter(Boolean).join(" · ") || "全部作品，按时间倒序铺开";
+
+    var more = document.getElementById("more");
+    if (list.length > shown.length) {
+      more.innerHTML = '<button class="btn btn--mint" type="button" id="moreBtn">再看 ' +
+        Math.min(24, list.length - shown.length) + " 张 ↓</button>";
+    } else {
+      more.innerHTML = list.length ? '<p class="count">—— 到底啦，共 ' + list.length + " 张 ——</p>" : "";
+    }
+  }
+
+  document.getElementById("more").addEventListener("click", function (e) {
+    if (!e.target.closest("#moreBtn")) return;
+    state.limit += 24;
+    render();
+  });
+
+  /* 收藏（事件委托） */
+  wall.addEventListener("click", function (e) {
+    var btn = e.target.closest(".fav");
+    if (!btn) return;
+    var slug = btn.dataset.slug;
+    if (favs[slug]) {
+      delete favs[slug];
+      btn.setAttribute("aria-pressed", "false");
+    } else {
+      favs[slug] = 1;
+      btn.setAttribute("aria-pressed", "true");
+      btn.classList.add("is-pop");
+      setTimeout(function () { btn.classList.remove("is-pop"); }, 360);
+    }
+    saveFavs();
+    if (state.favOnly) render();
+  });
+
+  /* 图片挂了就给个糖果底，不让墙破洞 */
+  wall.addEventListener("error", function (e) {
+    var img = e.target;
+    if (img.tagName !== "IMG") return;
+    img.style.aspectRatio = "auto";
+    img.style.height = "150px";
+    img.style.objectFit = "contain";
+    img.style.opacity = ".25";
+  }, true);
+
+  /* ---------------------------------------------------- 梗图速递带 */
+  /* 梗图占全站大头，单独给一条横向带子，突出「传着看」而不是「排队陈列」 */
+  (function buildStrip() {
+    var memes = works.filter(function (w) {
+      return (w.categoryIds || []).indexOf("meme") > -1;
+    }).sort(function (a, b) { return timeOf(b) - timeOf(a); }).slice(0, 160);
+
+    var pick = shuffle(memes).slice(0, 14);
+    var track = document.getElementById("strip");
+
+    track.innerHTML = pick.map(function (w, i) {
+      var say = w.commentary || w.description || "";
+      var no = stampOf(w.slug);
+      return '<a class="meme" href="' + esc(w.page) + '" target="_blank" rel="noopener" ' +
+          'style="' + styleOf(w.characterId) + "--rot:" + ((i % 3) - 1) * 0.9 + 'deg">' +
+        '<span class="meme__pic">' +
+          '<img src="' + esc(w.thumb) + '" alt="' + esc(w.description || w.name) + '" loading="lazy">' +
+          (no ? '<span class="meme__no">' + no + "</span>" : "") +
+        "</span>" +
+        '<span class="meme__cap">' +
+          '<span class="meme__name">' + esc(w.name) + "</span>" +
+          '<span class="meme__say"><b>' + esc(charName(w)) + "</b>：" + esc(say.slice(0, 64)) + "</span>" +
+        "</span>" +
+      "</a>";
+    }).join("");
+
+    document.getElementById("memesNote").textContent =
+      works.filter(function (w) { return (w.categoryIds || []).indexOf("meme") > -1; }).length +
+      " 张梗图里随手抓的 " + pick.length + " 张，点开就是原图";
+
+    track.parentElement.addEventListener("click", function (e) {
+      var btn = e.target.closest(".strip__nav");
+      if (!btn) return;
+      track.scrollBy({ left: Number(btn.dataset.dir) * 430, behavior: "smooth" });
+    });
+
+    track.addEventListener("error", function (e) {
+      if (e.target.tagName === "IMG") e.target.style.opacity = ".25";
+    }, true);
+  })();
+
+  /* ---------------------------------------------------- 角色吐槽墙 */
+  /* 直接引用作品的 commentary——角色本人点评自己被画成什么样 */
+  var boardBox = document.getElementById("boardBox");
+  function renderBoard() {
+    var pool = characters.filter(function (c) {
+      return works.some(function (w) { return w.characterId === c.id && w.commentary; });
+    });
+
+    boardBox.innerHTML = shuffle(pool).slice(0, Math.min(8, pool.length)).map(function (c, i) {
+      var lines = works.filter(function (w) { return w.characterId === c.id && w.commentary; });
+      var w = lines[Math.floor(Math.random() * lines.length)];
+      return '<div class="board__row" style="' + styleOf(c.id) + ";animation-delay:" + i * 90 + 'ms">' +
+        '<span class="board__ava" aria-hidden="true">' + esc(c.name.charAt(0)) + "</span>" +
+        '<div class="board__body">' +
+          '<span class="board__name">' + esc(c.name) + "</span>" +
+          '<p class="board__bubble">' + esc(w.commentary) + "</p>" +
+          '<div class="board__meta">' +
+            "<span>对二创</span>" +
+            '<a href="' + esc(w.page) + '" target="_blank" rel="noopener">《' + esc(w.name) + "》</a>" +
+            "<span>的吐槽 · " + esc(fmtDate(w)) + "</span>" +
+          "</div>" +
+        "</div>" +
+      "</div>";
+    }).join("");
+  }
+  document.getElementById("boardNext").addEventListener("click", renderBoard);
+
+  /* ---------------------------------------------------- 人设便签 */
+  var sheet = document.getElementById("sheet");
+  var sheetCard = document.getElementById("sheetCard");
+
+  function openSheet(id) {
+    var c = charById[id];
+    if (!c) return;
+
+    var list = works.filter(function (w) { return w.characterId === c.id; });
+    if (!list.length) return;
+
+    var withSay = list.filter(function (w) { return w.commentary; });
+    var say = withSay.length ? withSay[Math.floor(Math.random() * withSay.length)] : null;
+    var latest = list.reduce(function (a, b) { return timeOf(b) > timeOf(a) ? b : a; }, list[0]);
+
+    var tagTally = {};
+    list.forEach(function (w) {
+      (w.tags || []).forEach(function (t) { tagTally[t] = (tagTally[t] || 0) + 1; });
+    });
+    var topTags = Object.keys(tagTally).sort(function (a, b) { return tagTally[b] - tagTally[a]; }).slice(0, 6);
+
+    var catTally = {};
+    list.forEach(function (w) {
+      (w.categoryIds || []).forEach(function (k) { catTally[k] = (catTally[k] || 0) + 1; });
+    });
+    var catText = Object.keys(catTally).sort(function (a, b) { return catTally[b] - catTally[a]; })
+      .map(function (k) { return (catById[k] ? catById[k].name : k) + " " + catTally[k]; }).join(" · ");
+
+    sheetCard.innerHTML =
+      '<button class="sheet__close" type="button" data-close aria-label="关闭">✕</button>' +
+      '<div class="sheet__head" style="' + styleOf(c.id) + '">' +
+        '<span class="sheet__ava" aria-hidden="true">' + esc(c.name.charAt(0)) + "</span>" +
+        "<div>" +
+          '<h3 class="sheet__name">' + esc(c.name) + "</h3>" +
+          (c.aliases && c.aliases.length
+            ? '<div class="sheet__alias">' + c.aliases.map(function (a) { return "<span>" + esc(a) + "</span>"; }).join("") + "</div>"
+            : "") +
+        "</div>" +
+      "</div>" +
+      '<div class="sheet__row">' +
+        '<div class="sheet__kv"><strong>' + list.length + '</strong><span>件二创</span></div>' +
+        '<div class="sheet__kv"><strong>' + esc(fmtDate(latest)) + '</strong><span>最近被画</span></div>' +
+        '<div class="sheet__kv"><strong>' + topTags.length + '</strong><span>个常用标签</span></div>' +
+      "</div>" +
+      '<div class="sheet__swatch">' +
+        '<i style="background:' + esc(c.colorSoft) + '"></i>' +
+        '<i style="background:' + esc(c.colorDeep) + '"></i>' +
+        '<span class="sheet__label" style="margin:0">她的代表色</span>' +
+      "</div>" +
+      (say
+        ? '<span class="sheet__label">🎤 口头禅（随机抽一句她自己的原话）</span>' +
+          '<blockquote class="sheet__quote">' + esc(say.commentary) +
+            "<cite>—— 出自《" + esc(say.name) + "》 · " + esc(fmtDate(say)) + "</cite></blockquote>"
+        : "") +
+      (topTags.length
+        ? '<span class="sheet__label">🏷️ 她的常用标签</span>' +
+          '<div class="sheet__tags">' + topTags.map(function (t) {
+            return "<span>#" + esc(t) + " " + tagTally[t] + "</span>";
+          }).join("") + "</div>"
+        : "") +
+      '<span class="sheet__label">🖼️ 最近一张</span>' +
+      '<div class="sheet__mini">' +
+        '<img src="' + esc(latest.thumb) + '" alt="' + esc(latest.description || latest.name) + '" loading="lazy">' +
+        "<p><b>" + esc(latest.name) + "</b>" + esc(catText || "—") + "</p>" +
+      "</div>" +
+      '<div class="sheet__actions">' +
+        '<button class="btn btn--pink" type="button" data-only="' + esc(c.id) + '">🎯 只看她的作品</button>' +
+        '<a class="btn" href="' + esc(latest.page) + '" target="_blank" rel="noopener">🔗 看最近这张</a>' +
+      "</div>";
+
+    sheet.hidden = false;
+    sheetCard.querySelector(".sheet__close").focus();
+  }
+
+  function closeSheet() {
+    sheet.hidden = true;
+    sheetCard.innerHTML = "";
+  }
+
+  sheet.addEventListener("click", function (e) {
+    if (e.target.closest("[data-close]")) { closeSheet(); return; }
+
+    var only = e.target.closest("[data-only]");
+    if (!only) return;
+
+    state.char = only.dataset.only;
+    state.limit = 24;
+    syncChips();
+    closeSheet();
+    render();
+    location.hash = "#/gallery";
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !sheet.hidden) closeSheet();
+  });
+
+  /* ---------------------------------------------------- 本鱼精选 */
+  var spot = document.getElementById("spot");
+  var spotPool = works.filter(function (w) { return w.commentary; });
+  var spotIdx = Math.floor(Math.random() * Math.max(spotPool.length, 1));
+
+  function renderSpot() {
+    if (!spotPool.length) { spot.innerHTML = ""; return; }
+    var w = spotPool[spotIdx % spotPool.length];
+    var c = charById[w.characterId];
+    var cats = (w.categoryIds || []).map(function (id) { return catById[id]; }).filter(Boolean);
+
+    spot.innerHTML =
+      '<div class="spot__frame">' +
+        '<span class="spot__pin" aria-hidden="true">📌</span>' +
+        '<img src="' + esc(w.large || w.thumb) + '" alt="' + esc(w.description || w.name) + '" loading="lazy">' +
+      "</div>" +
+      '<div class="spot__body" style="' + styleOf(w.characterId) + '">' +
+        '<span class="spot__kicker">' + (cats.length ? catIcon(cats[0].id) + " " + esc(cats[0].name) : "✨ 二创") + "</span>" +
+        '<h3 class="spot__title">' + esc(w.name) + "</h3>" +
+        '<p class="spot__meta">' + esc(charName(w)) + " · " + esc(fmtDate(w)) +
+          (cats.length > 1 ? " · " + esc(cats.slice(1).map(function (x) { return x.name; }).join(" / ")) : "") + "</p>" +
+        '<div class="say">' +
+          '<div class="say__who"><i></i>' + esc(charName(w)) + " 说：</div>" +
+          '<p class="say__text">' + esc(w.commentary) + "</p>" +
+          '<div class="say__tags">' + (w.tags || []).slice(0, 6).map(function (t) {
+            return "<span>" + esc(t) + "</span>";
+          }).join("") + "</div>" +
+        "</div>" +
+        '<div class="spot__actions">' +
+          '<a class="btn btn--pink" href="' + esc(w.page) + '" target="_blank" rel="noopener">🔗 去看原图</a>' +
+          '<button class="btn" type="button" id="spotNext">🔄 换一张</button>' +
+        "</div>" +
+      "</div>";
+  }
+
+  spot.addEventListener("click", function (e) {
+    if (!e.target.closest("#spotNext")) return;
+    spotIdx += 1 + Math.floor(Math.random() * Math.max(spotPool.length - 1, 1));
+    renderSpot();
+  });
+
+  /* ---------------------------------------------------- 标签墙 */
+  (function buildCloud() {
+    var tally = {};
+    works.forEach(function (w) {
+      (w.tags || []).forEach(function (t) {
+        if (!t) return;
+        tally[t] = (tally[t] || 0) + 1;
+      });
+    });
+    var list = Object.keys(tally).map(function (t) { return { tag: t, n: tally[t] }; })
+      .sort(function (a, b) { return b.n - a.n; })
+      .slice(0, 34);
+
+    var max = list.length ? list[0].n : 1;
+    document.getElementById("cloud").innerHTML = list.map(function (item) {
+      var cls = ["tag"];
+      if (item.n > max * 0.5) cls.push("tag--xl", "tag--hot");
+      else if (item.n > max * 0.2) cls.push("tag--lg");
+      return '<button class="' + cls.join(" ") + '" type="button" data-tag="' + esc(item.tag) + '">' +
+        '<span class="tag__hash">#</span>' + esc(item.tag) +
+        " <b>" + item.n + " 张</b></button>";
+    }).join("");
+  })();
+
+  document.getElementById("cloud").addEventListener("click", function (e) {
+    var btn = e.target.closest(".tag");
+    if (!btn) return;
+    var tag = btn.dataset.tag;
+    document.getElementById("q").value = tag;
+    state.q = tag;
+    state.limit = 24;
+    render();
+    location.hash = "#/gallery";
+  });
+
+  /* ---------------------------------------------------- 随机一张 */
+  document.getElementById("luckyBtn").addEventListener("click", function () {
+    var w = works[Math.floor(Math.random() * works.length)];
+    if (w) window.open(w.page, "_blank", "noopener");
+  });
+
+  /* ---------------------------------------------------- 页脚 */
+  (function footer() {
+    var latest = works.reduce(function (a, b) { return timeOf(b) > timeOf(a) ? b : a; }, works[0]);
+    document.getElementById("footText").textContent =
+      "这里收录了 " + works.length + " 件 AI 娘二创作品，最新一件更新于 " + fmtDate(latest) +
+      "。你也画了 DeepSeek娘、Claude娘、通义千问娘……？投稿进来，让本鱼再多胖一点。";
+    document.getElementById("footLinks").innerHTML =
+      '<a href="' + esc(DATA.source || "#") + '" target="_blank" rel="noopener">🏠 回到正式站</a>' +
+      '<a href="#/board">💬 看角色吐槽墙</a>' +
+      '<a href="#/gallery">🐟 去作品墙</a>' +
+      '<a href="#top">⬆️ 回到顶部</a>';
+    document.getElementById("footMeta").textContent =
+      "数据同步于 " + (DATA.syncedAt ? String(DATA.syncedAt).slice(0, 10) : "未知") + " · 页面仅供二创展示";
+  })();
+
+  /* ---------------------------------------------------- 点一下就冒爱心 */
+  (function spark() {
+    var marks = ["💙", "💗", "✨", "🐟", "🎀", "⭐"];
+    document.addEventListener("click", function (e) {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      var el = document.createElement("span");
+      el.className = "spark";
+      el.textContent = marks[Math.floor(Math.random() * marks.length)];
+      el.style.left = e.clientX + "px";
+      el.style.top = e.clientY + "px";
+      el.style.setProperty("--r", (Math.random() * 60 - 30).toFixed(0) + "deg");
+      document.body.appendChild(el);
+      setTimeout(function () { el.remove(); }, 900);
+    });
+  })();
+
+  /* ---------------------------------------------------- 单文件里的「多页」路由 */
+  /* 三个视图靠 hash 切换：#/ 首页、#/board 吐槽墙、#/gallery 作品墙。
+     视图只切 hidden，DOM 不重建，所以筛选状态在页面之间来回跳也不会丢；
+     用 hash 而不是重渲染，浏览器前进 / 后退、直接复制链接都能用。 */
+  var VIEWS = ["home", "board", "gallery"];
+  var VIEW_TITLE = {
+    home: "蓝色大肥鱼 · AI娘二创祭",
+    board: "角色吐槽墙 · 蓝色大肥鱼",
+    gallery: "作品墙 · 蓝色大肥鱼"
+  };
+
+  function syncChips() {
+    [].forEach.call(rail.querySelectorAll(".chip"), function (b) {
+      b.setAttribute("aria-pressed", String((b.dataset.id || "") === state.char));
+    });
+  }
+
+  function syncCatPills() {
+    [].forEach.call(catFilters.children, function (b) {
+      b.setAttribute("aria-pressed", String((b.dataset.cat || "") === state.cat));
+    });
+  }
+
+  function currentView() {
+    var name = location.hash.replace(/^#\/?/, "").split("?")[0];
+    return VIEWS.indexOf(name) > -1 ? name : "home";
+  }
+
+  function applyView() {
+    var view = currentView();
+
+    [].forEach.call(document.querySelectorAll("[data-view]"), function (el) {
+      el.hidden = el.dataset.view !== view;
+    });
+    [].forEach.call(document.querySelectorAll(".nav a"), function (a) {
+      var on = a.dataset.nav === view;
+      a.classList.toggle("is-on", on);
+      if (on) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    });
+
+    document.title = VIEW_TITLE[view];
+    if (view === "board") renderBoard(); /* 每次进吐槽墙换一批，像刷新了一页 */
+    window.scrollTo(0, 0);
+  }
+
+  window.addEventListener("hashchange", applyView);
+
+  /* 首页区块里的「去作品墙」钩子：先带上筛选条件，再让 hash 把视图切过去 */
+  [].forEach.call(document.querySelectorAll(".hook"), function (a) {
+    a.addEventListener("click", function () {
+      if (a.dataset.gocat) {
+        state.cat = a.dataset.gocat;
+        syncCatPills();
+      }
+      state.limit = 24;
+      render();
+    });
+  });
+
+  /* ---------------------------------------------------- 启动 */
+  render();
+  renderSpot();
+  applyView();
+})();
+</script>
+</body>
+</html>
