@@ -65,7 +65,7 @@
       var hit = words.length ? idx.filter(function (r) { var hay = (r.n + ' ' + r.c + ' ' + r.a + ' ' + r.t + ' ' + r.d).toLowerCase(); return words.every(function (w) { return hay.indexOf(w) >= 0; }); }) : [];
       count.textContent = words.length ? T('v2.found', '找到 {count} 件', { count: hit.length }) : T('v2.typeToSearch', '输入关键词开始搜索');
       res.innerHTML = hit.map(function (r) {
-        return '<article class="media-card"><a href="works/' + esc(r.s) + '.html" data-work="' + esc(r.s) + '"><div class="ph"' + (r.w && r.h ? ' style="aspect-ratio:' + r.w + '/' + r.h + '"' : '') + '><img loading="lazy" src="' + esc(r.i) + '" alt="' + esc(r.n) + '"><span class="badge">' + esc(kindText(r.k) || T('v2.work', '作品')) + '</span></div><div class="meta"><h3>' + esc(r.n) + '</h3><p><span class="who"><i></i>' + esc(r.c) + '</span></p></div></a></article>';
+        return '<article class="media-card"><a href="https://xn--pssy23gqgbz2d718b.com/works/' + esc(r.s) + '.html" data-work="' + esc(r.s) + '"><div class="ph"' + (r.w && r.h ? ' style="aspect-ratio:' + r.w + '/' + r.h + '"' : '') + '><img loading="lazy" src="' + esc(r.i) + '" alt="' + esc(r.n) + '"><span class="badge">' + esc(kindText(r.k) || T('v2.work', '作品')) + '</span></div><div class="meta"><h3>' + esc(r.n) + '</h3><p><span class="who"><i></i>' + esc(r.c) + '</span></p></div></a></article>';
       }).join('');
     };
     input.value = new URLSearchParams(location.search).get('q') || '';

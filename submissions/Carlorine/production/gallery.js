@@ -43,7 +43,7 @@
     var typeNames = { meme: '梗图', illustration: '插画', setting: '设定', comic: '漫画' };
     feed.innerHTML = slugs.map(function (slug) {
       var w = data[slug], kind = (w.k || []).map(function (id) { return T('v2.type.' + id, typeNames[id] || id); }).join(' · ');
-      return '<article class="media-card" style="--c:' + esc(w.col) + '"><a href="works/' + esc(slug) + '.html" data-work="' + esc(slug) + '"><div class="ph"' + (w.w && w.h ? ' style="aspect-ratio:' + w.w + '/' + w.h + '"' : '') + '><img src="' + esc(w.i) + '" alt="' + esc(w.n) + '" loading="lazy"><span class="badge">' + esc(kind) + '</span></div><div class="meta"><h3>' + esc(w.n) + '</h3><p><span class="who"><i></i>' + esc(w.c) + '</span><span>' + esc(w.dt) + '</span></p></div></a></article>';
+      return '<article class="media-card" style="--c:' + esc(w.col) + '"><a href="https://xn--pssy23gqgbz2d718b.com/works/' + esc(slug) + '.html" data-work="' + esc(slug) + '"><div class="ph"' + (w.w && w.h ? ' style="aspect-ratio:' + w.w + '/' + w.h + '"' : '') + '><img src="' + esc(w.i) + '" alt="' + esc(w.n) + '" loading="lazy"><span class="badge">' + esc(kind) + '</span></div><div class="meta"><h3>' + esc(w.n) + '</h3><p><span class="who"><i></i>' + esc(w.c) + '</span><span>' + esc(w.dt) + '</span></p></div></a></article>';
     }).join('');
     empty.hidden = slugs.length > 0;
     var total = document.querySelector('[data-favorite-total]'); if (total) total.textContent = T('gallery.roleCount', '{count} 件作品', { count: slugs.length });
